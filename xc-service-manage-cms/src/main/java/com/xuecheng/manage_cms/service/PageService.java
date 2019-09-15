@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * @author Administrator
  * @version 1.0
@@ -29,9 +31,9 @@ public class PageService {
      * @param page             页码，从1开始记数
      * @param size             每页记录数
      * @param queryPageRequest 查询条件
-     * @return
+     * @return QueryResponseResult
      */
-    public QueryResponseResult findList(int page, int size, QueryPageRequest queryPageRequest) {
+    public QueryResponseResult findPageList(int page, int size, QueryPageRequest queryPageRequest) {
         if (queryPageRequest == null) {
             queryPageRequest = new QueryPageRequest();
         }
@@ -63,6 +65,22 @@ public class PageService {
         queryResult.setList(all.getContent());
         //数据总记录数
         queryResult.setTotal(all.getTotalElements());
+        QueryResponseResult queryResponseResult = new QueryResponseResult(CommonCode.SUCCESS, queryResult);
+        return queryResponseResult;
+    }
+
+    /**
+     * 不带查询方法
+     *
+     * @return QueryResponseResult
+     */
+    public QueryResponseResult findList() {
+        List<CmsPage> all = cmsPageRepository.findAll();
+        QueryResult<CmsPage> queryResult = new QueryResult<>();
+        //数据列表
+        queryResult.setList(all);
+        //数据总记录数
+        queryResult.setTotal(all.size());
         QueryResponseResult queryResponseResult = new QueryResponseResult(CommonCode.SUCCESS, queryResult);
         return queryResponseResult;
     }
