@@ -13,7 +13,8 @@ import org.springframework.web.bind.annotation.*;
  * @author Administrator
  * @version 1.0
  * @create 2018-09-12 17:24
- **/
+ * @blame Android Team
+ */
 @RestController
 @RequestMapping("/cms/page")
 public class CmsPageController implements CmsPageControllerApi {
@@ -22,24 +23,35 @@ public class CmsPageController implements CmsPageControllerApi {
     PageService pageService;
 
     @Override
-    @GetMapping("/pagelist/{page}/{size}")
+    @GetMapping("/{page}/{size}")
     public QueryResponseResult findPageList(@PathVariable("page") int page, @PathVariable("size") int size, QueryPageRequest queryPageRequest) {
         //调用service
         return pageService.findPageList(page, size, queryPageRequest);
     }
 
     @Override
-    @GetMapping("/list")
+    @GetMapping("/")
     public QueryResponseResult findList() {
         //调用service
         return pageService.findList();
     }
 
-    @PostMapping("/add")
+    @Override
+    @PostMapping("/")
     public CmsPageResult add(@RequestBody CmsPage cmsPage) {
         //调用service
         return pageService.add(cmsPage);
     }
 
+    @Override
+    @GetMapping("/{id}")
+    public CmsPage findByPageId(@PathVariable("id") String id) {
+        return pageService.findByPageId(id);
+    }
 
+    @Override
+    @PutMapping("/{id}")
+    public CmsPageResult edit(@PathVariable("id") String id, @RequestBody CmsPage cmsPage) {
+        return pageService.edit(id, cmsPage);
+    }
 }

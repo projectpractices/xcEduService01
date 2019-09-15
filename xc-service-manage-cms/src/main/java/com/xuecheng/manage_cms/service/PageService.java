@@ -13,6 +13,7 @@ import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author Administrator
@@ -99,5 +100,37 @@ public class PageService {
         } else {
             return new CmsPageResult(CommonCode.FAIL, null);
         }
+    }
+
+    /**
+     * 根据id查询
+     *
+     * @param pageId 数据id
+     * @return CmsPage
+     */
+    public CmsPage findByPageId(String pageId) {
+        Optional<CmsPage> optional = cmsPageRepository.findById(pageId);
+        return optional.orElse(null);
+    }
+
+    /**
+     * 更新
+     *
+     * @param cmsPage 更新对象
+     * @return CmsPageResult
+     */
+    public CmsPageResult edit(String pageId, CmsPage cmsPage) {
+        CmsPage one = this.findByPageId(pageId);
+        if (one != null) {
+            one = cmsPageRepository.findByPageWebPathAndSiteIdAndPageName(cmsPage.getPageWebPath(), cmsPage.getSiteId(), cmsPage.getPageName());
+            if (one == null){
+                cmsPage.setPageId(cmsPage.getPageId());
+                cmsPageRepository.save(cmsPage);
+                return new CmsPageResult(CommonCode.SUCCESS, cmsPage);
+            }else {
+                return new CmsPageResult(CommonCode.FAIL, null);
+            }
+        }
+        return new CmsPageResult(CommonCode.FAIL, null);
     }
 }
