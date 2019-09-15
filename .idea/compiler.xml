@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="xc-framework-utils" />
+        <module name="xc-service-manage-cms" />
+        <module name="xc-framework-model" />
+        <module name="xc-service-api" />
+        <module name="xc-framework-common" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="xc-framework-common.main" target="1.8" />
+      <module name="xc-framework-common.test" target="1.8" />
+      <module name="xc-framework-model.main" target="1.8" />
+      <module name="xc-framework-model.test" target="1.8" />
+      <module name="xc-framework-parent.main" target="1.8" />
+      <module name="xc-framework-parent.test" target="1.8" />
+      <module name="xc-framework-utils.main" target="1.8" />
+      <module name="xc-framework-utils.test" target="1.8" />
+      <module name="xc-service-api.main" target="1.8" />
+      <module name="xc-service-api.test" target="1.8" />
+      <module name="xc-service-manage-cms.main" target="1.8" />
+      <module name="xc-service-manage-cms.test" target="1.8" />
+      <module name="xcEduService01.main" target="1.8" />
+      <module name="xcEduService01.test" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="xc-framework-common" options="-parameters" />
+      <module name="xc-framework-model" options="-parameters" />
+      <module name="xc-framework-utils" options="-parameters" />
+      <module name="xc-service-api" options="-parameters" />
+      <module name="xc-service-manage-cms" options="-parameters" />
+    </option>
+  </component>
+</project>
