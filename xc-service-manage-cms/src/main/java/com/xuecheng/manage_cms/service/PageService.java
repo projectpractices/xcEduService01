@@ -2,6 +2,7 @@ package com.xuecheng.manage_cms.service;
 
 import com.xuecheng.framework.domain.cms.CmsPage;
 import com.xuecheng.framework.domain.cms.request.QueryPageRequest;
+import com.xuecheng.framework.domain.cms.response.CmsPageResult;
 import com.xuecheng.framework.model.response.CommonCode;
 import com.xuecheng.framework.model.response.QueryResponseResult;
 import com.xuecheng.framework.model.response.QueryResult;
@@ -57,16 +58,15 @@ public class PageService {
         if (StringUtils.isNotEmpty(queryPageRequest.getPageAliase())) {
             cmsPage.setPageAliase(queryPageRequest.getPageAliase());
         }
-        Example<CmsPage> example = Example.of(cmsPage,exampleMatcher);
+        Example<CmsPage> example = Example.of(cmsPage, exampleMatcher);
         Pageable pageable = PageRequest.of(page, size);
-        Page<CmsPage> all = cmsPageRepository.findAll(example,pageable);
+        Page<CmsPage> all = cmsPageRepository.findAll(example, pageable);
         QueryResult<CmsPage> queryResult = new QueryResult<>();
         //数据列表
         queryResult.setList(all.getContent());
         //数据总记录数
         queryResult.setTotal(all.getTotalElements());
-        QueryResponseResult queryResponseResult = new QueryResponseResult(CommonCode.SUCCESS, queryResult);
-        return queryResponseResult;
+        return new QueryResponseResult(CommonCode.SUCCESS, queryResult);
     }
 
     /**
@@ -81,7 +81,23 @@ public class PageService {
         queryResult.setList(all);
         //数据总记录数
         queryResult.setTotal(all.size());
-        QueryResponseResult queryResponseResult = new QueryResponseResult(CommonCode.SUCCESS, queryResult);
-        return queryResponseResult;
+        return new QueryResponseResult(CommonCode.SUCCESS, queryResult);
+    }
+
+    /**
+     * @param cmsPage 新增对象
+     * @return CmsPageResult
+     */
+    public CmsPageResult add(CmsPage cmsPage) {
+        CmsPage cms = cmsPageRepository.findByPageWebPathAndSiteIdAndPageName(cmsPage.getPageWebPath(), cmsPage.getSiteId(), cmsPage.getPageName());
+        if (cms == null) {
+            //添加页面主键由spring data 自动生成
+            cmsPage.setPageId(null);
+            cmsPageRepository.save(cmsPage);
+            //返回结果
+            return new CmsPageResult(CommonCode.SUCCESS, cmsPage);
+        } else {
+            return new CmsPageResult(CommonCode.FAIL, null);
+        }
     }
 }
