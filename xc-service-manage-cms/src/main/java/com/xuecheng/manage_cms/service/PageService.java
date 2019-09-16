@@ -2,7 +2,10 @@ package com.xuecheng.manage_cms.service;
 
 import com.xuecheng.framework.domain.cms.CmsPage;
 import com.xuecheng.framework.domain.cms.request.QueryPageRequest;
+import com.xuecheng.framework.domain.cms.response.CmsCode;
 import com.xuecheng.framework.domain.cms.response.CmsPageResult;
+import com.xuecheng.framework.exception.CustomException;
+import com.xuecheng.framework.exception.ExceptionCast;
 import com.xuecheng.framework.model.response.CommonCode;
 import com.xuecheng.framework.model.response.QueryResponseResult;
 import com.xuecheng.framework.model.response.QueryResult;
@@ -91,15 +94,14 @@ public class PageService {
      */
     public CmsPageResult add(CmsPage cmsPage) {
         CmsPage cms = cmsPageRepository.findByPageWebPathAndSiteIdAndPageName(cmsPage.getPageWebPath(), cmsPage.getSiteId(), cmsPage.getPageName());
-        if (cms == null) {
-            //添加页面主键由spring data 自动生成
-            cmsPage.setPageId(null);
-            cmsPageRepository.save(cmsPage);
-            //返回结果
-            return new CmsPageResult(CommonCode.SUCCESS, cmsPage);
-        } else {
-            return new CmsPageResult(CommonCode.FAIL, null);
+        if (cms != null){
+            ExceptionCast.cast(CmsCode.CMS_ADDPAGE_EXISTSNAME);
         }
+        //添加页面主键由spring data 自动生成
+        cmsPage.setPageId(null);
+        cmsPageRepository.save(cmsPage);
+        //返回结果
+        return new CmsPageResult(CommonCode.SUCCESS, cmsPage);
     }
 
     /**
