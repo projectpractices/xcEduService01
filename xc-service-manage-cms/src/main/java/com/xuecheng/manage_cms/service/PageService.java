@@ -123,13 +123,28 @@ public class PageService {
         CmsPage one = this.findByPageId(pageId);
         if (one != null) {
             one = cmsPageRepository.findByPageWebPathAndSiteIdAndPageName(cmsPage.getPageWebPath(), cmsPage.getSiteId(), cmsPage.getPageName());
-            if (one == null){
+            if (one == null) {
                 cmsPage.setPageId(cmsPage.getPageId());
                 cmsPageRepository.save(cmsPage);
                 return new CmsPageResult(CommonCode.SUCCESS, cmsPage);
-            }else {
+            } else {
                 return new CmsPageResult(CommonCode.FAIL, null);
             }
+        }
+        return new CmsPageResult(CommonCode.FAIL, null);
+    }
+
+    /**
+     * 删除对象
+     *
+     * @param pageId  数据id
+     * @return CmsPageResult
+     */
+    public CmsPageResult delete(String pageId) {
+        CmsPage one = this.findByPageId(pageId);
+        if (one != null) {
+            cmsPageRepository.delete(one);
+            return new CmsPageResult(CommonCode.SUCCESS, null);
         }
         return new CmsPageResult(CommonCode.FAIL, null);
     }

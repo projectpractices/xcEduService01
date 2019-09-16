@@ -59,4 +59,14 @@ public interface CmsPageControllerApi {
      */
     @ApiOperation("编辑更新")
     CmsPageResult edit(String pageId, CmsPage cmsPage);
+
+
+    /**
+     * 删除页面
+     *
+     * @param pageId 数据id
+     * @return CmsPageResult
+     */
+    @ApiOperation("删除数据")
+    CmsPageResult delete(String pageId);
 }
