@@ -1,14 +1,15 @@
 package com.xuecheng.manage_cms.service;
 
+import com.xuecheng.framework.domain.cms.CmsConfig;
 import com.xuecheng.framework.domain.cms.CmsPage;
 import com.xuecheng.framework.domain.cms.request.QueryPageRequest;
 import com.xuecheng.framework.domain.cms.response.CmsCode;
 import com.xuecheng.framework.domain.cms.response.CmsPageResult;
-import com.xuecheng.framework.exception.CustomException;
 import com.xuecheng.framework.exception.ExceptionCast;
 import com.xuecheng.framework.model.response.CommonCode;
 import com.xuecheng.framework.model.response.QueryResponseResult;
 import com.xuecheng.framework.model.response.QueryResult;
+import com.xuecheng.manage_cms.dao.CmsConfigRepository;
 import com.xuecheng.manage_cms.dao.CmsPageRepository;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,9 @@ public class PageService {
 
     @Autowired
     CmsPageRepository cmsPageRepository;
+
+    @Autowired
+    CmsConfigRepository cmsConfigRepository;
 
 
     /**
@@ -94,7 +98,7 @@ public class PageService {
      */
     public CmsPageResult add(CmsPage cmsPage) {
         CmsPage cms = cmsPageRepository.findByPageWebPathAndSiteIdAndPageName(cmsPage.getPageWebPath(), cmsPage.getSiteId(), cmsPage.getPageName());
-        if (cms != null){
+        if (cms != null) {
             ExceptionCast.cast(CmsCode.CMS_ADDPAGE_EXISTSNAME);
         }
         //添加页面主键由spring data 自动生成
@@ -139,7 +143,7 @@ public class PageService {
     /**
      * 删除对象
      *
-     * @param pageId  数据id
+     * @param pageId 数据id
      * @return CmsPageResult
      */
     public CmsPageResult delete(String pageId) {
@@ -149,5 +153,16 @@ public class PageService {
             return new CmsPageResult(CommonCode.SUCCESS, null);
         }
         return new CmsPageResult(CommonCode.FAIL, null);
+    }
+
+    /**
+     * 获取配置类对象
+     *
+     * @param id 数据id
+     * @return CmsConfig
+     */
+    public CmsConfig getModel(String id) {
+        Optional<CmsConfig> optional = cmsConfigRepository.findById(id);
+        return optional.orElse(null);
     }
 }
