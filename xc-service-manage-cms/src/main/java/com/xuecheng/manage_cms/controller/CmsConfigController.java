@@ -10,6 +10,7 @@ import com.xuecheng.framework.model.response.QueryResponseResult;
 import com.xuecheng.manage_cms.service.PageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 /**
  * @author Administrator
@@ -23,6 +24,9 @@ public class CmsConfigController implements CmsConfigControllerApi {
 
     @Autowired
     PageService pageService;
+
+    @Autowired
+    RestTemplate restTemplate;
 
     @Override
     @GetMapping("/{id}")
