@@ -66,4 +66,5 @@ public class CmsPageRepositoryTest {
         CmsPage cmsPage = cmsPageRepository.findByPageName("测试页面");
         System.out.println(cmsPage);
     }
+
 }
