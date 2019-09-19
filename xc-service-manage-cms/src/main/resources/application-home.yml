@@ -7,3 +7,7 @@ spring:
     mongodb:
       uri:  mongodb://root:example@39.104.50.29:7010
       database: xc_cms
+  freemarker:
+    cache: false
+    setting:
+      template_update_delay: 0
