@@ -45,19 +45,17 @@ public class GridFsTest {
     public void testGridFs() throws FileNotFoundException {
         File file = new File("F:\\githubhome\\xcEduService01\\xc-framework-freemarker\\src\\main\\resources\\templates\\index_banner.ftl");
         FileInputStream fileInputStream = new FileInputStream(file);
-        ObjectId objectId = gridFsTemplate.store(fileInputStream, "index_banner.ftl");
+        ObjectId objectId = gridFsTemplate.store(fileInputStream, "20190919测试.ftl");
         System.out.println(objectId.toString());
     }
 
     @Test
     public void testGridFSBucket() throws IOException {
-        String fileId = "5d8186c005aba02db083153c";
+        String fileId = "5d82dd35dcd1aa3210977b06";
         GridFSFile gridFSFile = gridFsTemplate.findOne(Query.query(Criteria.where("_id").is(fileId)));
         GridFSDownloadStream gridFSDownloadStream = gridFSBucket.openDownloadStream(gridFSFile.getObjectId());
         GridFsResource gridFsResource = new GridFsResource(gridFSFile, gridFSDownloadStream);
         String string = IOUtils.toString(gridFsResource.getInputStream(), "UTF-8");
         System.out.println(string);
     }
-
-
 }
