@@ -30,7 +30,7 @@ public class ConsumerPostPage {
      * @RabbitListener(queues = {"${xuecheng.mq.queue}"}) 监听队列
      * @param msg 获得队列消息
      */
-    /*@RabbitListener(queues = "${xuecheng.mq.queue}")
+    @RabbitListener(queues = "${xuecheng.mq.queue}")
     public void postPage(String msg) {
         Map map = JSON.parseObject(msg, Map.class);
         LOGGER.info("receive cms post page:{}", msg.toString());
@@ -43,5 +43,5 @@ public class ConsumerPostPage {
         }
         //保存页面到服务器路径
         pageService.savePageToServerPath(pageId);
-    }*/
+    }
 }
