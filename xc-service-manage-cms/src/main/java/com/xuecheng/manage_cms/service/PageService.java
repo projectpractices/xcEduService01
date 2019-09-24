@@ -306,7 +306,7 @@ public class PageService {
 
     public ResponseResult postPage(String pageId) {
         String pageHtml = this.getPageHtml(pageId);
-        CmsPage cmsPage = saveHtml(pageId, pageHtml);
+        saveHtml(pageId, pageHtml);
         sendPostPage(pageId);
         return new ResponseResult(CommonCode.SUCCESS);
     }
