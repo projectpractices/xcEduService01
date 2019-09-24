@@ -45,7 +45,7 @@ public class PageService {
     //将页面html存储到物理路径
     public void savePageToServerPath(String pageId) {
         Optional<CmsPage> optional = cmsPageRepository.findById(pageId);
-        if (optional.isPresent()) {
+        if (!optional.isPresent()) {
             ExceptionCast.cast(CmsCode.CMS_PAGE_NOTEXISTS);
         }
         //获取页面对象
@@ -61,7 +61,12 @@ public class PageService {
         String pagePath = cmsSite.getSitePhysicalPath() + cmsPage.getPagePhysicalPath() + cmsPage.getPageName();
         FileOutputStream fileOutputStream = null;
         try {
-            fileOutputStream = new FileOutputStream(new File(pagePath));
+            File file = new File(pagePath);
+            if (!file.getParentFile().exists()){
+                boolean mkdir = file.getParentFile().mkdirs();
+                System.out.println(mkdir);
+            }
+            fileOutputStream = new FileOutputStream(file);
             IOUtils.copy(inputStream, fileOutputStream);
         } catch (IOException e) {
             e.printStackTrace();
