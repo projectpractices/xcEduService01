@@ -11,6 +11,11 @@ import org.springframework.http.client.OkHttp3ClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 
 
+/**
+ * UcenterAuthApplication
+ *
+ * @blame Android Team
+ */
 @EnableDiscoveryClient
 @EnableFeignClients
 @EntityScan("com.xuecheng.framework.domain.ucenter")//扫描实体类
