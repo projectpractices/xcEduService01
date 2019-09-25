@@ -1,4 +1,4 @@
-package com.xuecheng.auth.client;
+package com.xuecheng.framework.utils;
 
 import sun.misc.BASE64Encoder;
 
@@ -11,7 +11,7 @@ import java.security.cert.Certificate;
  * @author zhen
  * @Date 2018/4/16 10:58
  */
-public class ExportCert {
+public class ExportCertUtils {
 
     //导出证书 base64格式
     private static void exportCert(KeyStore keyStore, String alias, String exportFile) throws Exception {
@@ -76,10 +76,10 @@ public class ExportCert {
         String exportPrivateFile = "F:\\jwt\\test\\privateKey.txt";
         String exportPublicFile = "F:\\jwt\\test\\publicKey.txt";
 
-        ExportCert.exportCert(keyStore, alias, exportCertFile);
-        KeyPair keyPair = ExportCert.getKeyPair(keyStore, alias, friendPassword.toCharArray()); //注意这里的密码是你的别名对应的密码，不指定的话就是你的keystore的解析密码
-        ExportCert.exportPrivateKey(keyPair.getPrivate(), exportPrivateFile);
-        ExportCert.exportPublicKey(keyPair.getPublic(), exportPublicFile);
+        ExportCertUtils.exportCert(keyStore, alias, exportCertFile);
+        KeyPair keyPair = ExportCertUtils.getKeyPair(keyStore, alias, friendPassword.toCharArray()); //注意这里的密码是你的别名对应的密码，不指定的话就是你的keystore的解析密码
+        ExportCertUtils.exportPrivateKey(keyPair.getPrivate(), exportPrivateFile);
+        ExportCertUtils.exportPublicKey(keyPair.getPublic(), exportPublicFile);
 
         System.out.println("OK");
 
