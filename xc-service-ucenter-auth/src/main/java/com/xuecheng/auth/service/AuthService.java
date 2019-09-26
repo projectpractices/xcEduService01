@@ -87,6 +87,18 @@ public class AuthService {
     }
 
     /**
+     * 从redis 删除token
+     *
+     * @param access_token 用户身份令牌
+     * @return boolean
+     */
+    public boolean delToken(String access_token) {
+        String key = "user_token:" + access_token;
+        stringRedisTemplate.delete(key);
+        return true;
+    }
+
+    /**
      * 通过token查询AuthToken
      *
      * @param access_token 用户身份令牌

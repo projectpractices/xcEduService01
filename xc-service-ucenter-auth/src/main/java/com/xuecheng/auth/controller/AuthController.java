@@ -81,8 +81,12 @@ public class AuthController implements AuthControllerApi {
     }
 
     @Override
+    @GetMapping("/userlogout")
     public ResponseResult logout() {
-        return null;
+        String token = getTokenFromCookie();
+        authService.delToken(token);
+        clearCookie(token);
+        return new ResponseResult(CommonCode.SUCCESS);
     }
 
     @Override
@@ -103,5 +107,11 @@ public class AuthController implements AuthControllerApi {
         HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
         Map<String, String> cookieMap = CookieUtil.readCookie(request, "uid");
         return cookieMap.get("uid");
+    }
+
+    private void clearCookie(String token) {
+        HttpServletResponse response = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();
+        //HttpServletResponse response,String domain,String path, String name, String value, int maxAge,boolean httpOnly
+        CookieUtil.addCookie(response, cookieDomain, "/", "uid", token, 0, false);
     }
 }
