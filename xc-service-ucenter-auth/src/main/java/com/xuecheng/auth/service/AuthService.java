@@ -6,6 +6,8 @@ import com.xuecheng.framework.domain.ucenter.ext.AuthToken;
 import com.xuecheng.framework.domain.ucenter.response.AuthCode;
 import com.xuecheng.framework.exception.ExceptionCast;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.client.ServiceInstance;
@@ -34,6 +36,8 @@ import java.util.concurrent.TimeUnit;
  **/
 @Service
 public class AuthService {
+
+    private Logger logger = LoggerFactory.getLogger(AuthService.class);
 
     @Value("${auth.tokenValiditySeconds}")
     int tokenValiditySeconds;
@@ -66,19 +70,42 @@ public class AuthService {
         return authToken;
 
     }
-    //存储到令牌到redis
 
     /**
+     * 存储到令牌到redis
+     *
      * @param access_token 用户身份令牌
      * @param content      内容就是AuthToken对象的内容
      * @param ttl          过期时间
-     * @return
+     * @return boolean
      */
     private boolean saveToken(String access_token, String content, long ttl) {
         String key = "user_token:" + access_token;
         stringRedisTemplate.boundValueOps(key).set(content, ttl, TimeUnit.SECONDS);
         Long expire = stringRedisTemplate.getExpire(key, TimeUnit.SECONDS);
         return expire > 0;
+    }
+
+    /**
+     * 通过token查询AuthToken
+     *
+     * @param access_token 用户身份令牌
+     * @return AuthToken
+     */
+    public AuthToken getUserToken(String access_token) {
+        String key = "user_token:" + access_token;
+        String userTokenString = stringRedisTemplate.opsForValue().get(key);
+        if (StringUtils.isNotEmpty(userTokenString)) {
+            AuthToken authToken = null;
+            try {
+                authToken = JSON.parseObject(userTokenString, AuthToken.class);
+            } catch (Exception e) {
+                logger.error("getUserToken from redis and execute JSON.parseObject error{}", e.getMessage());
+                e.printStackTrace();
+            }
+            return authToken;
+        }
+        return null;
     }
 
     //申请令牌
