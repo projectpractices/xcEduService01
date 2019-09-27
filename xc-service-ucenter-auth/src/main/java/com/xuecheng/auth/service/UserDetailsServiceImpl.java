@@ -71,7 +71,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 //        user_permission.add("course_get_baseinfo");
 //        user_permission.add("course_find_pic");
         //String user_permission_string = StringUtils.join(user_permission.toArray(), ",");
-        String user_permission_string = "";
+        List<String> permissions = new ArrayList<>();
+        permissions.add("findList1");
+        String user_permission_string = StringUtils.join(permissions.toArray(), ",");
         UserJwt userDetails = new UserJwt(username,
                 password,
                 AuthorityUtils.commaSeparatedStringToAuthorityList(user_permission_string));
