@@ -20,7 +20,7 @@ public class ExceptionCatch {
     /**
      * 构建map数据
      */
-    private static ImmutableMap.Builder<Class<? extends Throwable>, ResultCode> builder = ImmutableMap.builder();
+    protected static ImmutableMap.Builder<Class<? extends Throwable>, ResultCode> builder = ImmutableMap.builder();
 
     /**
      * 捕获自定义异常
