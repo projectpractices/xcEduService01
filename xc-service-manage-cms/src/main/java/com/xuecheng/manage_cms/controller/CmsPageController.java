@@ -8,7 +8,6 @@ import com.xuecheng.framework.model.response.QueryResponseResult;
 import com.xuecheng.framework.model.response.ResponseResult;
 import com.xuecheng.manage_cms.service.PageService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -31,7 +30,7 @@ public class CmsPageController implements CmsPageControllerApi {
         return pageService.findPageList(page, size, queryPageRequest);
     }
 
-    @PreAuthorize("hasAuthority('findList')")
+    //@PreAuthorize("hasAuthority('findList')")
     @Override
     @GetMapping("/")
     public QueryResponseResult findList() {
